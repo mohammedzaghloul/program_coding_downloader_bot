@@ -1,0 +1,94 @@
+@model DownloadPageViewModel
+@using Microsoft.Extensions.Options
+@inject IOptions<DownloaderOptions> DownloaderOptions
+@{
+    ViewData["Title"] = "التحميل";
+    var botUsername = DownloaderOptions.Value.TelegramBotUsername?.Trim().TrimStart('@');
+    var botLink = string.IsNullOrWhiteSpace(botUsername) ? null : $"https://t.me/{botUsername}";
+}
+
+<div class="bg-gradient"></div>
+
+<div class="container page-shell animate-fade-in">
+    <section class="download-grid">
+        <div class="premium-card">
+            <span class="eyebrow">فحص الرابط</span>
+            <h1 class="section-title">ألصق الرابط هنا</h1>
+            <p class="section-copy">لو كان الملف مباشرًا، سيبدأ التحميل فورًا. ولو لم يكن مباشرًا، ستظهر لك رسالة واضحة مع رابط الصفحة الأصلية.</p>
+
+            <form asp-action="ProcessDownload" method="post" class="stack-md">
+                <div>
+                    <label asp-for="Url" class="form-label">الرابط</label>
+                    <input asp-for="Url" class="form-control form-control-premium" dir="ltr" placeholder="https://example.com/file.pdf" />
+                </div>
+                <button type="submit" class="btn btn-premium btn-lg w-100">
+                    <i class="bi bi-download ms-2"></i>فحص وتحميل
+                </button>
+            </form>
+
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <div class="status-card status-error mt-4">
+                    <strong>تعذر إكمال الطلب</strong>
+                    <p>@Model.ErrorMessage</p>
+                </div>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.InfoMessage))
+            {
+                <div class="status-card status-info mt-4">
+                    <strong>نتيجة الفحص</strong>
+                    <p>@Model.InfoMessage</p>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FileName))
+                    {
+                        <p class="meta-line"><span>اسم الملف المتوقع:</span> <bdi>@Model.FileName</bdi></p>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FileSizeLabel))
+                    {
+                        <p class="meta-line"><span>الحجم التقريبي:</span> @Model.FileSizeLabel</p>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.SourceUrl))
+                    {
+                        <a href="@Model.SourceUrl" target="_blank" rel="noreferrer" class="btn btn-outline-premium mt-2">افتح الصفحة الأصلية</a>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="stack-lg">
+            <div class="premium-card">
+                <span class="eyebrow">ماذا يدعم النظام؟</span>
+                <h2 class="section-title">السيناريو الأفضل لهذا المشروع</h2>
+                <div class="feature-list">
+                    <div class="feature-row">
+                        <i class="bi bi-check-circle"></i>
+                        <p>ملفات مباشرة مثل الصور والفيديو والصوت وملفات الأرشيف وPDF.</p>
+                    </div>
+                    <div class="feature-row">
+                        <i class="bi bi-check-circle"></i>
+                        <p>فحص أولي للرابط قبل تنزيله، مع اكتشاف الاسم والحجم إن توفرا في الهيدر.</p>
+                    </div>
+                    <div class="feature-row">
+                        <i class="bi bi-check-circle"></i>
+                        <p>تحويل الروابط غير المباشرة إلى صفحة الموقع بدل محاولة كسر القيود أو الالتفاف على المنصات.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-card">
+                <span class="eyebrow">التحويل والربح</span>
+                <h2 class="section-title">مكان جاهز للإعلانات</h2>
+                <div class="ad-slot">
+                    أضف هنا وحدة AdSense أو بانر CPA أو أي مساحة دعائية ترغب بها.
+                </div>
+                @if (!string.IsNullOrWhiteSpace(botLink))
+                {
+                    <a href="@botLink" target="_blank" rel="noreferrer" class="btn btn-outline-premium mt-4">اختبر البوت من تيليجرام</a>
+                }
+            </div>
+        </div>
+    </section>
+</div>
