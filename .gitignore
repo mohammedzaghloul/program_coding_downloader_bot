@@ -1,0 +1,11 @@
+bin/
+obj/
+buildbin/
+buildobj/
+.vs/
+*.user
+*.suo
+*.cache
+*.tmp
+build_log.txt
+appsettings.Development.json
