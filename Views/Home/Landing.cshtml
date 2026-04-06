@@ -1,0 +1,90 @@
+@using Microsoft.Extensions.Options
+@inject IOptions<DownloaderOptions> DownloaderOptions
+@{
+    ViewData["Title"] = "الرئيسية";
+    var botUsername = DownloaderOptions.Value.TelegramBotUsername?.Trim().TrimStart('@');
+    var botLink = string.IsNullOrWhiteSpace(botUsername) ? null : $"https://t.me/{botUsername}";
+}
+
+<div class="bg-gradient"></div>
+
+<div class="container page-shell animate-fade-in">
+    <section class="hero-grid">
+        <div class="premium-card hero-copy">
+            <span class="eyebrow">Telegram Bot + ASP.NET</span>
+            <h1 class="hero-title">استقبل الرابط وحدد أسرع مسار للتحميل</h1>
+            <p class="hero-text">
+                المشروع يعمل بفكرة واضحة: إذا كان الرابط ملفًا مباشرًا، يتم تنزيله فورًا. وإذا لم يكن مباشرًا،
+                يتحول المستخدم إلى صفحة التحميل على موقعك بدل محاولات غير موثوقة أو مخالفة للشروط.
+            </p>
+            <div class="hero-actions">
+                <a asp-controller="Download" asp-action="Index" class="btn btn-premium btn-lg">ابدأ من صفحة التحميل</a>
+                @if (!string.IsNullOrWhiteSpace(botLink))
+                {
+                    <a href="@botLink" target="_blank" rel="noreferrer" class="btn btn-outline-premium btn-lg">افتح البوت</a>
+                }
+            </div>
+            <div class="metric-grid">
+                <article class="metric-card">
+                    <strong>فحص فوري</strong>
+                    <span>يتأكد من نوع الرابط قبل محاولة التنزيل.</span>
+                </article>
+                <article class="metric-card">
+                    <strong>تحكم في الحجم</strong>
+                    <span>حدود منفصلة للموقع ولإرسال الملفات داخل تيليجرام.</span>
+                </article>
+                <article class="metric-card">
+                    <strong>جاهز للربح</strong>
+                    <span>واجهة التحويل مهيأة لإعلاناتك أو روابطك التسويقية.</span>
+                </article>
+            </div>
+        </div>
+
+        <div class="premium-card hero-panel">
+            <span class="eyebrow">كيف يعمل</span>
+            <div class="flow-stack">
+                <div class="flow-item">
+                    <span class="flow-step">1</span>
+                    <div>
+                        <h2>المستخدم يرسل رابطًا</h2>
+                        <p>من تيليجرام أو مباشرة من صفحة الموقع.</p>
+                    </div>
+                </div>
+                <div class="flow-item">
+                    <span class="flow-step">2</span>
+                    <div>
+                        <h2>النظام يفحص العنوان</h2>
+                        <p>يقرأ نوع المحتوى والاسم والحجم إن كانت متاحة من الخادم.</p>
+                    </div>
+                </div>
+                <div class="flow-item">
+                    <span class="flow-step">3</span>
+                    <div>
+                        <h2>يختار المسار المناسب</h2>
+                        <p>تنزيل مباشر للملف الواضح أو تحويل إلى صفحة التحميل لو لم يكن الرابط مباشرًا.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-grid">
+        <article class="premium-card">
+            <span class="eyebrow">الروابط المدعومة</span>
+            <h3 class="section-title small-title">أمثلة سريعة</h3>
+            <p class="section-copy">ملفات الفيديو والصوت والصور وPDF وZIP والملفات التنفيذية المباشرة التي يعلن الخادم عنها كملفات فعلية.</p>
+        </article>
+
+        <article class="premium-card">
+            <span class="eyebrow">التحويل والربح</span>
+            <h3 class="section-title small-title">صفحة جاهزة للإعلانات</h3>
+            <p class="section-copy">يمكنك وضع AdSense أو بانر أو CPA داخل صفحة التحميل عندما لا يكون الرابط مباشرًا.</p>
+        </article>
+
+        <article class="premium-card">
+            <span class="eyebrow">النشر</span>
+            <h3 class="section-title small-title">شغّل المشروع 24/7</h3>
+            <p class="section-copy">بعد ضبط المتغيرات، يمكنك نشره على Render أو Railway أو أي استضافة تدعم ASP.NET وتشغيله باستمرار.</p>
+        </article>
+    </section>
+</div>
